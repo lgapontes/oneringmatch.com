@@ -1,0 +1,9 @@
+google-auth-oauthlib==1.2.0
+google-auth==2.31.0
+flask==3.0.3
+pyjwt==2.8.0
+python-dotenv==1.0.1
+flask_cors==4.0.1
+psycopg2==2.9.5
+requests==2.32.3
+pymongo==4.8.0
