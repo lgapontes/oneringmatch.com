@@ -5,23 +5,19 @@ import os
 #load_dotenv("..\.env")
 load_dotenv()
 
-import psycopg2.extras
-
-# call it in any place of your program
-# before working with UUID objects in PostgreSQL
-psycopg2.extras.register_uuid()
+import mysql.connector
 
 class Database(object):
-   connection = None
+    connection = None
 
-   def __init__(self):
-      Database.connection = psycopg2.connect(
-          user=os.getenv("DATABASE_USER"),
-          password=os.getenv("DATABASE_PASSWORD"),
-          host=os.getenv("DATABASE_HOST"),
-          port=int(os.getenv("DATABASE_PORT")),
-          database=os.getenv("DATABASE_NAME")
-      )
+    def __init__(self):
+        Database.connection = mysql.connector.connect(
+            user=os.getenv("DATABASE_USER"),
+            password=os.getenv("DATABASE_PASSWORD"),
+            host=os.getenv("DATABASE_HOST"),
+            port=int(os.getenv("DATABASE_PORT")),
+            database=os.getenv("DATABASE_NAME")
+        )
 
 database = Database()
 
@@ -33,7 +29,7 @@ def environment():
 
 def connect():
     global database
-    if database.connection is None or database.connection.closed != 0:
+    if database.connection is None or not database.connection.is_connected():
         database = Database()
     return database.connection
 

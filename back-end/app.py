@@ -148,11 +148,22 @@ def isAdministrator(decoded_jwt):
 @app.route("/api/callback")
 def callback():
     try:
-        flow.fetch_token(authorization_response=request.url) #, expires_in=3600
+        # This need change to True in production XXX
+        verify=False
+        stepAuth="1: Try get token by Google"
+
+        flow.fetch_token(authorization_response=request.url,verify=verify) #, expires_in=3600
+
+        stepAuth="2: Try get credentials by Google"
         credentials = flow.credentials
+
+        stepAuth="3: Try get session by Google"
         request_session = requests.session()
+
+        stepAuth="4: Try request token by Google"
         token_request = google.auth.transport.requests.Request(session=request_session)
 
+        stepAuth="5: Call oauth2 method by Google"
         id_info = id_token.verify_oauth2_token(
             id_token=credentials._id_token,
             request=token_request,
@@ -166,6 +177,7 @@ def callback():
 
         #print(id_info)
 
+        stepAuth="6: Get user in database"
         # Criar ou obter usuário do banco
         registro_valido, mensagem_usuario, dados = registrar_ou_obter_usuario(
             None,
@@ -177,24 +189,29 @@ def callback():
             id_info['family_name']
         )
 
+        stepAuth="7: Verify record of user"
         if not registro_valido:
             print(mensagem_usuario)
             return redirect(f"{FRONTEND_URL}/error")
 
+        stepAuth="8: Generate JWT with data"
         email = dados['email']
         jwt_token=Generate_JWT(dados)
 
+        stepAuth="9: Create session in database"
         sessao_valida, mensagem_sessao = criar_ou_atualizar_session(email,jwt_token)
 
         if not sessao_valida:
             print(mensagem_sessao)
             return redirect(f"{FRONTEND_URL}/error")
 
+        stepAuth="10: Return JWT to client"
         return redirect(f"{FRONTEND_URL}/login?jwt={jwt_token}")
 
     except Exception as e:
         logger()
         print(str(e))
+        print("Step Auth: " + stepAuth)
         return redirect(f"{FRONTEND_URL}/error")
 
 
