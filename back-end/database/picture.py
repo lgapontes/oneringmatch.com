@@ -13,15 +13,23 @@ DEFAULT_URL = 'img/user.jpg'
 
 def __gerar_nome_arquivo():
     try:
+        step="1: Create filename by UUID"
         filename=uuid.filename() # Nome do arquivo
+
+        step="2: Create file URL with filename"
         path_filename=RELATIVE_PICTURE_FOLDER + filename # URL do Arquivo
-        dest_folder=PICTURE_FOLDER + RELATIVE_PICTURE_FOLDER # PATH no computador
+
+        step="3: Create destination folder in server"
+        dest_folder=PICTURE_FOLDER + RELATIVE_PICTURE_FOLDER.replace('/', '\\') # PATH no computador
+
+        step="4: Create destination folder in server with filename"
         file_path = os.path.join(dest_folder, filename) # Path no computador + nome do arquivo
 
         return True, filename, path_filename, dest_folder, file_path, PICTURE_FOLDER
 
     except Exception as e:
         print(str(e))
+        print("Step save image: " + step)
         return False, filename, path_filename, dest_folder, file_path
 
 def gerar_nome_arquivo():

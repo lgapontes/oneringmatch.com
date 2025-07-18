@@ -1,4 +1,3 @@
-
 import re
 from database import tables,\
     picture,\
@@ -21,7 +20,7 @@ MEGAS_ARQUIVO_PICTURE = int(os.getenv("MEGAS_ARQUIVO_PICTURE"))
 def __validar_login(login):
     if login and (len(login) > 3):
         if (True if re.match("^[a-z0-9_]+$", login) else False):
-            if (True if re.match("^[a-z_]\w*$", login) else False):
+            if (True if re.match("^[a-z_]\\w*$", login) else False):
                 return True, 'Nome de usuário válido!'
             else:
                 return False, 'Não pode iniciar com números!'
@@ -79,9 +78,8 @@ def validar_login(login,email):
         return True, 'Nome de usuário válido!'
 
     except Exception as error:
-        logger()
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        logger('tu1t6w',mensagem_de_erro)
         return False, 'Ocorreu um erro ao validar o nome de usuário!', [mensagem_de_erro]
 
 
@@ -95,15 +93,15 @@ def excluir_picture(usuarios,inicio_path_computador):
                 arquivo_para_apagar = os.path.join(inicio_path_computador, url_picture)
                 os.remove(arquivo_para_apagar)
             else:
-                return False, '>> ERROR: Não foi possível excluir a imagem por não conter a picture no usuário'
+                return False, '>> ERROR ID[nUFJsP]: Não foi possível excluir a imagem por não conter a picture no usuário'
         else:
-            return False, '>> ERROR: Não foi possível excluir a imagem por haver vários usuários na busca'
+            return False, '>> ERROR ID[mLljZP]: Não foi possível excluir a imagem por haver vários usuários na busca'
 
         return True, 'Picture excluída com sucesso!'
 
     except Exception as error:
-        logger()
-        mensagem_de_erro = '>> ERROR: ' + str(error)
+        mensagem_de_erro = str(error)
+        logger('cBgTJR',mensagem_de_erro)
         return False, mensagem_de_erro
 
 
@@ -142,35 +140,37 @@ def salvar_foto_perfil(files,email):
         # Apagar arquivo antigo
         exluido, mensagem_excluido = excluir_picture(usuarios,inicio_path_computador)
         if not exluido:
-            print('>> ERROR: ' + mensagem_excluido)
+            print('>> ERROR ID[3QT69l]: ' + mensagem_excluido)
 
         return True, url_arquivo, []
 
     except Exception as error:
-        logger()
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        logger('5iqMOe',mensagem_de_erro)
         return False, 'Ocorreu um erro ao salvar o arquivo!', [mensagem_de_erro]
 
 
 def registrar_ou_obter_usuario(login,email,nome_completo,nome_social,url_picture,given_name,family_name):
     try:
-
+        step = "1: Check if email exists"
         # Verificar se precisa inserir ou atualizar
         usuario_existe = tables.usuario_existe(email)
 
         # Usuário precisa ser inserido
         if usuario_existe == False:
 
+            step = "2.1: Get login"
             # Caso login vazio, obter do email
             login = __obter_login_valido(login,email)
 
+            step = "2.2: Validate login"
             # Validar Login
             login_valido, login_valido_mensagem = __validar_login(login)
 
             if not login_valido:
                 return False, login_valido_mensagem, []
 
+            step = "2.3: Validate name"
             # Preencher nome, se necessário
             if not __validar_nome_completo(nome_completo):
                 if given_name and family_name:
@@ -182,6 +182,7 @@ def registrar_ou_obter_usuario(login,email,nome_completo,nome_social,url_picture
                 else:
                     nome_completo = login_valido
 
+            step = "2.4: Get login suggestion"
             # Obter login ou sugestão de login
             login = tables.obter_sugestao_login(login)
 
@@ -190,9 +191,11 @@ def registrar_ou_obter_usuario(login,email,nome_completo,nome_social,url_picture
             else:
                 nome_social = nome_completo
 
+            step = "2.5: Download picture"
             # Salvando imagem localmente e obtendo URLs
             url, url_original, url_original_existe = picture.download(url_picture)
 
+            step = "2.6: Insert user in database"
             usuario = tables.insert_usuario(
                 login,
                 email,
@@ -210,6 +213,7 @@ def registrar_ou_obter_usuario(login,email,nome_completo,nome_social,url_picture
 
         # Obter Usuário
         else:
+            step = "3.1: Get existing user"
             usuario = tables.select_usuario(email)
 
             if len(usuario) == 1:
@@ -218,9 +222,8 @@ def registrar_ou_obter_usuario(login,email,nome_completo,nome_social,url_picture
                 return False, 'Ocorreu um erro ao obter os dados do usuário!', usuario
 
     except Exception as error:
-        logger()
-        mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        mensagem_de_erro = step + " >> " + str(error)
+        logger('JJ6KpO',mensagem_de_erro)
         return False, 'Ocorreu um erro ao registrar o usuário!', [mensagem_de_erro]
 
 
@@ -240,9 +243,8 @@ def criar_ou_atualizar_session(email,jwt_token):
             return False, 'Ocorreu um erro ao criar a sessão!'
 
     except Exception as error:
-        logger()
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        logger('s0CpPC',mensagem_de_erro)
         return False, 'Ocorreu um erro ao gerenciar a sessão!', [mensagem_de_erro]
 
 
@@ -271,9 +273,8 @@ def refresh_data_session(user):
         return True, 'Acesso autorizado!', user
 
     except Exception as error:
-        logger()
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        logger('8rzs7E',mensagem_de_erro)
         return False, 'Ocorreu um erro ao gerenciar a sessão!', [mensagem_de_erro]
 
 # apagar, nao usado
@@ -302,9 +303,8 @@ def refresh_session(email):
         return True, 'Acesso autorizado!', session
 
     except Exception as error:
-        logger()
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        logger('N6AkPd',mensagem_de_erro)
         return False, 'Ocorreu um erro ao gerenciar a sessão!', [mensagem_de_erro]
 
 
@@ -320,9 +320,8 @@ def logout_session(email):
         return True, 'Logout realizado com sucesso!', session
 
     except Exception as error:
-        logger()
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        logger('GNHmvS',mensagem_de_erro)
         return False, 'Ocorreu um erro ao fechar a sessão!', [mensagem_de_erro]
 
 
@@ -338,9 +337,8 @@ def consultar_usuario(email):
         return True, 'Dados do usuário obtidos com sucesso!', usuario
 
     except Exception as error:
-        logger()
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        logger('JPtccA',mensagem_de_erro)
         return False, 'Ocorreu um erro ao buscar os dados do usuário!', [mensagem_de_erro]
 
 
@@ -366,9 +364,8 @@ def salvar_usuario(login,email,nome_completo,nome_social):
         return True, 'Dados alterados com sucesso!', {}
 
     except Exception as error:
-        logger()
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        logger('GHhuEI',mensagem_de_erro)
         return False, 'Ocorreu um erro ao salvar o usuário!', { 'erro' : mensagem_de_erro }
 
 
@@ -382,7 +379,7 @@ def __loggers(db):
         error['timestamp'] = timestamp
 
     if valido == False:
-        print('>> ERROR: ' + mensagem)
+        print('>> ERROR ID[t0RL19]: ' + mensagem)
 
     return erros
 
@@ -393,7 +390,7 @@ def loggers():
         return __loggers(db)
     except Exception as error:
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        print('>> ERROR ID[UX5aUi]: ' + mensagem_de_erro)
         return []
 
 
@@ -403,13 +400,13 @@ def resolve_error(_id):
         valido, mensagem = mongo.resolve_error(db,_id)
 
         if valido == False:
-            print('>> ERROR: ' + mensagem)
+            print('>> ERROR ID[x3bJqT]: ' + mensagem)
 
         return __loggers(db)
 
     except Exception as error:
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        print('>> ERROR ID[FDCEi8]: ' + mensagem_de_erro)
         return []
 
 
@@ -419,24 +416,26 @@ def resolve_all_errors():
         valido, mensagem = mongo.resolve_all_errors(db)
 
         if valido == False:
-            print('>> ERROR: ' + mensagem)
+            print('>> ERROR ID[1yAJcJ]: ' + mensagem)
 
         return __loggers(db)
 
     except Exception as error:
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        print('>> ERROR ID[QHwNMK]: ' + mensagem_de_erro)
         return []
 
 
-def logger():
+def logger(code,message):
+    print('>> ERROR ID[' + code + ']: ' + message)
+
     try:
         db=mongo.connection()
-        valido, mensagem = mongo.insert_error(db)
+        valido, mensagem = mongo.insert_error(db,code)
 
         if not valido:
-            print('>> ERROR: ' + mensagem)
+            print('>> ERROR ID[XhYnrv]: ' + mensagem)
 
     except Exception as error:
         mensagem_de_erro = str(error)
-        print('>> ERROR: ' + mensagem_de_erro)
+        print('>> ERROR ID[6rkhr2]: ' + mensagem_de_erro)

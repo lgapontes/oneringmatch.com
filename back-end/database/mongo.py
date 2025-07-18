@@ -33,7 +33,7 @@ Exemplo modelo
 
 """
 
-def insert_error(db):
+def insert_error(db,code):
     if DISABLE_MONGO:
         return True, 'Log salvo com sucesso!'
 
@@ -49,6 +49,7 @@ def insert_error(db):
                 'traceback': traceback,
                 'timestamp': timestamp,
                 'resolved': resolved,
+                'code': code,
             })
             content.update({ "_id":_id })
 
@@ -135,31 +136,3 @@ def resolve_all_errors(db):
         else:
             msg = (f"failed with non-timeout error: {exc!r}")
         return False, msg
-
-
-
-
-
-"""
-def teste_inserir_log():
-
-    db=connection()
-    print(db)
-
-    try:
-        a = 400/0
-    except Exception as e:
-        print(repr(e))
-        print(insert_error(db))
-
-
-def teste_atualizar_log():
-    db=connection()
-    print(resolve_error(db,'04db4d7ce3624830ba4a9d1f5f82ba42'))
-
-
-def teste_buscar_logs():
-    db=connection()
-    valido, mensagem, erros = get_errors(db)
-    print(erros)
-"""

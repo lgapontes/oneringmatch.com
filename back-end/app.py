@@ -105,8 +105,7 @@ def token_required(f):
                 )
 
         except Exception as error:
-            logger()
-            print(str(error))
+            logger('xPD7vK',str(error))
 
             if str(error) == 'Signature has expired':
                 return Response(
@@ -209,9 +208,8 @@ def callback():
         return redirect(f"{FRONTEND_URL}/login?jwt={jwt_token}")
 
     except Exception as e:
-        logger()
-        print(str(e))
-        print("Step Auth: " + stepAuth)
+        mensagem_de_erro = "Step Auth: " + stepAuth + " >> " + str(e)
+        logger('w7h7YZ',mensagem_de_erro)
         return redirect(f"{FRONTEND_URL}/error")
 
 
@@ -255,7 +253,7 @@ def home_page_user(email, decoded_jwt):
         return dumps(dados,200)
 
     except Exception as e:
-        logger()
+        logger('wbqe8a',str(e))
         return dumps({"message":"Falha ao obter a sessão do usuário!", "exception":e.args},500)
 
 
@@ -271,7 +269,7 @@ def upload_file(email, decoded_jwt):
        return dumps({'url': mensagem},200)
 
    except Exception as e:
-       logger()
+       logger('Vey1RI',str(e))
        return dumps({"message":"Falha ao obter a sessão do usuário!", "exception":e.args},500)
 
 
@@ -295,7 +293,7 @@ def check_user():
             return dumps({"message":mensagem, "exception":data},409)
 
     except Exception as e:
-        logger()
+        logger('WYpTMh',str(e))
         return dumps({"message":str(e), "exception":e.args},500)
 
 
@@ -316,7 +314,7 @@ def post_salvar_usuario(email, decoded_jwt):
             return dumps({"message":mensagem, "exception":dados},400)
 
     except Exception as e:
-        logger()
+        logger('GuaR0c',str(e))
         return dumps({"message":str(e), "exception":e.args},500)
 
 
@@ -332,7 +330,7 @@ def categorias():
         return dumps(data,200)
 
     except Exception as e:
-        logger()
+        logger('4q7d7u',str(e))
         return dumps({"message":str(e), "exception":e.args},500)
 
 
@@ -387,7 +385,7 @@ def all_errors(email, decoded_jwt):
 
 @app.route('/', methods=['GET'])
 def hello_world():
-    return "API Lootbook!"
+    return "API OneRing Match!"
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000, host="0.0.0.0")

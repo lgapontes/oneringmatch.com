@@ -34,7 +34,7 @@ def select_modalidades():
 def usuario_existe(email):
     linhas = connection.select("""
         SELECT EXISTS
-            (select email from usuarios where email = %s)::boolean
+            (select email from usuarios where email = %s)
         as usuario_existe
         """,
         (email, ),
@@ -43,7 +43,7 @@ def usuario_existe(email):
         ]
     )
     if linhas and len(linhas) == 1:
-        return linhas[0]['usuario_existe']
+        return linhas[0]['usuario_existe'] == 1
     else:
         return False
 
@@ -51,7 +51,7 @@ def usuario_existe(email):
 def login_existe(login):
     linhas = connection.select("""
         SELECT EXISTS
-            (select login from usuarios where login = %s)::boolean
+            (select login from usuarios where login = %s)
         as login_existe
         """,
         (login, ),
@@ -60,7 +60,7 @@ def login_existe(login):
         ]
     )
     if linhas and len(linhas) == 1:
-        return linhas[0]['login_existe']
+        return linhas[0]['login_existe'] == 1
     else:
         return False
 
@@ -99,15 +99,15 @@ def verificar_login(login,email):
     		when (
     			select
     				(login != %s) as login_mudou
-    				from usuarios where email = %s) = true
+    				from usuarios where email = %s) = 1
     			then -- LOGIN MUDOU
     			(
     				CASE
     					when (
     						SELECT EXISTS
-    						(select login from usuarios where login = %s)::boolean
+    						(select login from usuarios where login = %s)
     						as login_existe
-    					) = true then 'LOGIN EXISTE'
+    					) = 1 then 'LOGIN EXISTE'
     					else 'LOGIN NAO EXISTE'
     				END
     			)
@@ -135,17 +135,15 @@ def verificar_login(login,email):
 
 def select_usuario(email):
     return connection.select("""
-        --select data_login, data_refresh from usuarios_sessions where email=
-
-select
+        select
         	login,
             usuarios.email,
             nome_completo,
             nome_social,
             CASE
         	  WHEN nome_social <> '' THEN nome_social
-        	  WHEN nome_social = '' THEN split_part(nome_completo, ' ', 1)
-              WHEN nome_social is null THEN split_part(nome_completo, ' ', 1)
+        	  WHEN nome_social = '' THEN SUBSTRING_INDEX(nome_completo, ' ', 1)
+              WHEN nome_social is null THEN SUBSTRING_INDEX(nome_completo, ' ', 1)
         	ELSE
         	  login
         	END as nome_ajustado,
@@ -154,23 +152,23 @@ select
         	usuarios_pictures.url as picture,
         	usuarios_pictures.url_original_existe as url_original_existe,
         	usuarios_pictures.arquivo_carregado as arquivo_carregado,
-            to_char(data_cadastro, 'yyyy-MM-dd HH24:MI:SS.MS') as data_cadastro,
-            to_char(ultima_alteracao, 'yyyy-MM-dd HH24:MI:SS.MS') as ultima_alteracao,
+            DATE_FORMAT(data_cadastro, '%Y-%m-%d %H:%i:%S') as data_cadastro,
+            DATE_FORMAT(ultima_alteracao, '%Y-%m-%d %H:%i:%S') as ultima_alteracao,
             atualizado_pelo_usuario,
             vezes_acessado,
 			(select count(id) from usuarios_curtidas where usuario_curtido_uuid = usuarios.uuid) as total_curtidas,
 			(select count(id) from usuarios_seguidos where usuario_seguido_uuid = usuarios.uuid) as total_seguidores,
-            logado,
-        	to_char(data_login, 'yyyy-MM-dd HH24:MI:SS.MS') as data_login,
-        	(SELECT (extract(epoch from now() - data_login)) :: bigint) as segundos_login,
-        	to_char(data_refresh, 'yyyy-MM-dd HH24:MI:SS.MS') as data_refresh,
-        	(SELECT (extract(epoch from now() - data_refresh)) :: bigint) as segundos_refresh,
+            COALESCE(logado,0),
+        	DATE_FORMAT(data_login, '%Y-%m-%d %H:%i:%S') as data_login,
+        	COALESCE((SELECT TIMESTAMPDIFF(SECOND,now(),data_login)),0) as segundos_login,
+        	DATE_FORMAT(data_refresh, '%Y-%m-%d %H:%i:%S') as data_refresh,
+        	COALESCE((SELECT TIMESTAMPDIFF(SECOND,now(),data_refresh)),0) as segundos_refresh,
             false as esta_logado
         from usuarios
         inner join status on status.uuid = usuarios.status_uuid
         inner join perfis on perfis.uuid = usuarios.perfil_uuid
-		inner join usuarios_sessions on usuarios_sessions.email = usuarios.email
         inner join usuarios_pictures on usuarios_pictures.usuario_uuid = usuarios.uuid
+        left join usuarios_sessions on usuarios_sessions.email = usuarios.email
         where usuarios.email = %s
         """,
         (email, ),
@@ -206,7 +204,7 @@ def insert_usuario(login,email,nome_completo,nome_social,url,url_original,url_or
         conn = connection.connect()
         cursor = conn.cursor()
 
-        new_uuid = uuid.new()
+        new_uuid = str(uuid.new())
 
         sql = """
         insert into usuarios (
@@ -244,7 +242,7 @@ def insert_usuario(login,email,nome_completo,nome_social,url,url_original,url_or
             nome_social,
         ));
 
-        new_uuid_picture = uuid.new()
+        new_uuid_picture = str(uuid.new())
 
         sql_pictures = """
             insert into usuarios_pictures (
@@ -297,7 +295,7 @@ def update_usuario(login,email,nome_completo,nome_social):
             nome_completo = %s,
             nome_social = %s,
             ultima_alteracao = now(),
-            atualizado_pelo_usuario = true
+            atualizado_pelo_usuario = 1
         where email = %s
         """
 
@@ -362,10 +360,10 @@ def select_session(email):
         	email,
         	jwt_token,
             logado,
-        	to_char(data_login, 'yyyy-MM-dd HH24:MI:SS.MS') as data_login,
-        	(SELECT (extract(epoch from now() - data_login)) :: bigint) as segundos_login,
-        	to_char(data_refresh, 'yyyy-MM-dd HH24:MI:SS.MS') as data_refresh,
-        	(SELECT (extract(epoch from now() - data_refresh)) :: bigint) as segundos_refresh
+        	DATE_FORMAT(data_login, '%Y-%m-%d %H:%i:%S') as data_login,
+        	COALESCE((SELECT TIMESTAMPDIFF(SECOND,now(),data_login)),0) as segundos_login,
+        	DATE_FORMAT(data_refresh, '%Y-%m-%d %H:%i:%S') as data_refresh,
+        	COALESCE((SELECT TIMESTAMPDIFF(SECOND,now(),data_refresh)),0) as segundos_refresh
         from usuarios_sessions
         where email = %s
         """,
@@ -387,7 +385,7 @@ def insert_session(email,jwt_token):
         conn = connection.connect()
         cursor = conn.cursor()
 
-        new_uuid = uuid.new()
+        new_uuid = str(uuid.new())
 
         sql = """
         insert into usuarios_sessions (
@@ -401,7 +399,7 @@ def insert_session(email,jwt_token):
           %s, -- uuid
           %s, -- email
           %s, -- jwt_token
-          True, -- logado
+          1, -- logado
           now(), -- data_login
           now() -- data_refresh
         );
@@ -433,7 +431,7 @@ def update_session(email,jwt_token):
         sql = """
         update usuarios_sessions set
             jwt_token = %s,
-            logado = True,
+            logado = 1,
             data_login = now(),
             data_refresh = now()
         where email = %s
@@ -469,7 +467,7 @@ def refresh_session(email):
 
         connection.dml_cursor(cursor, sql, (
             email,
-            True,
+            1,
         ));
 
         conn.commit()
@@ -515,7 +513,7 @@ def logout_session(email):
 def session_existe(email):
     linhas = connection.select("""
         SELECT EXISTS
-            (select email from usuarios_sessions where email = %s)::boolean
+            (select email from usuarios_sessions where email = %s)
         as session_existe
         """,
         (email, ),
@@ -524,6 +522,6 @@ def session_existe(email):
         ]
     )
     if linhas and len(linhas) == 1:
-        return linhas[0]['session_existe']
+        return linhas[0]['session_existe'] == 1
     else:
         return False
