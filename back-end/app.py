@@ -76,10 +76,12 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
+        steps = "1: Get authorization by headers"
 
         if 'Authorization' in request.headers:
             token = request.headers.get("Authorization")
 
+        steps = "2: Validate token"
         if not token or token == 'undefined' or token == 'null':
             return Response(
                 response=json.dumps({"message":'Acesso não autorizado!', "exception":{'token': token}}),
@@ -88,10 +90,14 @@ def token_required(f):
             )
 
         try:
+            steps = "3: Get Bearer in token"
             encoded_jwt = token.split("Bearer ")[1]
+
+            steps = "4: Decode data token"
             decoded_jwt = jwt.decode(encoded_jwt, app.secret_key, algorithms=[ALGORITHM,])
             email = decoded_jwt['email']
 
+            steps = "5: Get email in token"
             if (decoded_jwt and email):
 
                 # Retorno dos dados decriptados
@@ -105,7 +111,8 @@ def token_required(f):
                 )
 
         except Exception as error:
-            logger('xPD7vK',str(error))
+            error_msg = steps + " >> " + str(error)
+            logger('xPD7vK',error_msg)
 
             if str(error) == 'Signature has expired':
                 return Response(
@@ -236,24 +243,39 @@ def logout(email, decoded_jwt):
     return dumps(session,202)
 
 
+"""
+@app.route('/api/session', methods=['OPTIONS'])
+def pythongeeks_get_users_options():
+   # Retrieve options for the response
+   options = {'Allow': 'GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS'}
+   # Return options as a response
+   print('OPTIONS')
+   return '', 200, options
+"""
+
 @app.route("/api/session")
 @token_required
-def home_page_user(email, decoded_jwt):
+def get_api_session(email, decoded_jwt):
     try:
+        steps = "1: Get user by database"
         registro_valido, mensagem, dados = consultar_usuario(email)
 
+        steps = "2: Validate user"
         if registro_valido == False:
             return dumps({"message":mensagem, "exception":dados},500)
 
+        steps = "3: Refresh user session"
         logado, mensagem_sessao, dados = refresh_data_session(dados)
 
+        steps = "4: Send response message to client"
         if logado == False:
             return dumps({"message":mensagem_sessao, "exception":sessao},401)
 
         return dumps(dados,200)
 
     except Exception as e:
-        logger('wbqe8a',str(e))
+        error_msg = step + " >> " + str(e)
+        logger('wbqe8a',error_msg)
         return dumps({"message":"Falha ao obter a sessão do usuário!", "exception":e.args},500)
 
 

@@ -47,11 +47,14 @@ def protect_sql_injection(value):
 def select(sql,columns,columns_return):
     try:
         connection = connect()
+        print(connection)
         cursor = connection.cursor()
+        print(sql)
         cursor.execute(sql,columns)
         results = []
         for row in cursor.fetchall():
             results.append(dict(zip(columns_return, row)))
+        print(results)
         return results
     except Exception as error:
         print(str(error))

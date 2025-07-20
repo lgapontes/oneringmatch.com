@@ -1,7 +1,7 @@
 from database import connection
 from database import uuid
 
-def app_version():
+def app_version():    
     v = connection.version()
     e = connection.environment()
     if (e == 'DEV'):
