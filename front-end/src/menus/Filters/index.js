@@ -96,7 +96,7 @@ export default function Filters(props) {
       >
         <Box
           component="img"
-          sx={{ maxWidth: 150 }}
+          sx={{ maxWidth: 200, paddingTop: 1 }}
           alt="Lootbook"
           src="img/logo-menu.png"
         />
@@ -199,5 +199,5 @@ export default function Filters(props) {
         )
       }
     </div>
-  );  
+  );
 }

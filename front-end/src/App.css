@@ -36,6 +36,10 @@ body {
 
 .primary-color {
   background-image: radial-gradient(#24142e, #3f3045);
+  /*
+  background-image: radial-gradient(#b71c1c, #a70c0c);
+  background-image: radial-gradient(#6d1800, #5d0800);
+  */
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -50,7 +54,7 @@ a.img-logo {
 }
 
 a.img-logo > img {
-  width: 110px;
+  width: 200px;
   margin-top: 4px;
 }
 
