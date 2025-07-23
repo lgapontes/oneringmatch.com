@@ -181,8 +181,6 @@ def callback():
         del id_info['aud']
         del id_info['iat']
 
-        #print(id_info)
-
         stepAuth="6: Get user in database"
         # Criar ou obter usuário do banco
         registro_valido, mensagem_usuario, dados = registrar_ou_obter_usuario(

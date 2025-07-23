@@ -9,6 +9,53 @@ CREATE TABLE `character_creation_log` (
 
 insert into character_creation_log (uuid,number_characters_created) values ('bac370ea-dfca-4387-96d9-5fa7799e5088',65883);
 
+CREATE TABLE `craftsmanship` (
+  `uuid` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+insert into character_creation_log (uuid,description) values ('ec7c5dfe-f604-4aa3-b81b-691ba477e32d'); // Elven Craftsmanship
+insert into character_creation_log (uuid,description) values ('222ac311-1d5b-4022-999e-853618fbc62d'); // Dwarven Craftsmanship
+insert into character_creation_log (uuid,description) values ('4d8175a6-65ae-4cab-8ba4-426fb2840127'); // Númenórean Craftsmanship
+
+CREATE TABLE `craftsmanship_translations` (
+  `uuid` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `language` char(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`uuid`,`language`),
+  FOREIGN KEY (uuid)
+      REFERENCES craftsmanship(uuid) MATCH SIMPLE
+      ON UPDATE NO ACTION
+      ON DELETE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+insert into character_creation_log (uuid,description) values ('ec7c5dfe-f604-4aa3-b81b-691ba477e32d','en-US','Elven Craftsmanship');
+insert into character_creation_log (uuid,description) values ('222ac311-1d5b-4022-999e-853618fbc62d','en-US','Dwarven Craftsmanship');
+insert into character_creation_log (uuid,description) values ('4d8175a6-65ae-4cab-8ba4-426fb2840127','en-US','Númenórean Craftsmanship');
+
+insert into character_creation_log (uuid,description) values ('ec7c5dfe-f604-4aa3-b81b-691ba477e32d','pt-BR','Forja Élfica');
+insert into character_creation_log (uuid,description) values ('222ac311-1d5b-4022-999e-853618fbc62d','pt-BR','Forja Anã');
+insert into character_creation_log (uuid,description) values ('4d8175a6-65ae-4cab-8ba4-426fb2840127','pt-BR','Forja Numenoriana');
+
+insert into character_creation_log (uuid,description) values ('ec7c5dfe-f604-4aa3-b81b-691ba477e32d','es-ES','Artesanía Élfica');
+insert into character_creation_log (uuid,description) values ('222ac311-1d5b-4022-999e-853618fbc62d','es-ES','Artesanía Enana');
+insert into character_creation_log (uuid,description) values ('4d8175a6-65ae-4cab-8ba4-426fb2840127','es-ES','Artesanía Númenóreana');
+
+insert into character_creation_log (uuid,description) values ('ec7c5dfe-f604-4aa3-b81b-691ba477e32d','fr-FR','Artisanat Elfique');
+insert into character_creation_log (uuid,description) values ('222ac311-1d5b-4022-999e-853618fbc62d','fr-FR','Artisanat Nain');
+insert into character_creation_log (uuid,description) values ('4d8175a6-65ae-4cab-8ba4-426fb2840127','fr-FR','Artisanat Numénoréen');
+
+insert into character_creation_log (uuid,description) values ('ec7c5dfe-f604-4aa3-b81b-691ba477e32d','de-DE','Elfenhandwerk');
+insert into character_creation_log (uuid,description) values ('222ac311-1d5b-4022-999e-853618fbc62d','de-DE','Zwergenhandwerk');
+insert into character_creation_log (uuid,description) values ('4d8175a6-65ae-4cab-8ba4-426fb2840127','de-DE','Númenóreisches Handwerk');
+
+CREATE TABLE `weapons` (
+  `uuid` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `number_characters_created` BIGINT UNSIGNED NOT NULL,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 ------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `status`
