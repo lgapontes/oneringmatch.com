@@ -1,6 +1,8 @@
 # project
 project/nao-versionar.txt
 
+front-end/public/external
+
 # Logs
 front-end/logs
 front-end/*.log
