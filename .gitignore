@@ -1,7 +1,7 @@
 # project
 project/nao-versionar.txt
-
 front-end/public/external
+front-end/package-lock.json
 
 # Logs
 front-end/logs
