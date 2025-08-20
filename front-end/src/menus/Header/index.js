@@ -27,12 +27,14 @@ import Skeleton from '@mui/material/Skeleton';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import GoogleIcon from '@mui/icons-material/Google';
+import LoginIcon from '@mui/icons-material/Login';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import LanguageIcon from '@mui/icons-material/Language';
 
-import Filters from '../../menus/Filters';
+import MenuActions from '../../menus/MenuActions';
 
 export const DRAWER_WIDTH = 240;
 
@@ -41,6 +43,17 @@ export default function Header(props) {
   const navigate=useNavigate();
 
   const photo = (props.logged && props.picture) ? props.picture : 'img/user.jpg';
+
+  /* Language Menu */
+  const [anchorElLanguageMenu, setAnchorElLanguageMenu] = React.useState(null);
+
+  const handleOpenLanguageMenu = (event) => {
+    setAnchorElLanguageMenu(event.currentTarget);
+  };
+  const handleCloseLanguageMenu = (event) => {
+    setAnchorElLanguageMenu(null);
+  };
+  /* Language Menu */
 
   /* Menu do Usuário */
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -146,13 +159,56 @@ export default function Header(props) {
               }}
             >
               {
-                <Filters
-                  modalidades={props.modalidades}
-                  categorias={props.categorias}
-                />
+                <MenuActions />
               }
             </Drawer>
           </Box>
+
+          <Button
+            sx={{
+              display: { xs: 'none', sm: 'inline-flex' },
+            }}
+            color="inherit"
+            onClick={handleOpenLanguageMenu}
+            startIcon={<LanguageIcon />}>
+            {props.i18n('menu.header.button.language')}
+          </Button>
+          <IconButton
+            sx={{
+              display: { xs: 'inline-flex', sm: 'none' },
+            }}
+            color="inherit"
+            onClick={handleOpenLanguageMenu}
+          >
+            <LanguageIcon />
+          </IconButton>
+
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-language"
+            anchorEl={anchorElLanguageMenu}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElLanguageMenu)}
+            onClose={handleCloseLanguageMenu}
+            disableScrollLock={true}
+          >
+            {props.languages.map((entry,index)=>(
+              <MenuItem key={entry} onClick={(event)=>{
+                props.handleChangeLanguage(entry);
+                handleCloseLanguageMenu(event);
+              }}>
+                {entry}
+              </MenuItem>
+            ))}
+          </Menu>
 
           {
             (!props.logged) ?
@@ -163,13 +219,26 @@ export default function Header(props) {
                   width={40} height={40}
                 />
               :
-              <Button
-                 sx={{ marginLeft: 3 }}
-                color="inherit"
-                onClick={props.handleLogin}
-                startIcon={<GoogleIcon />}>
-                Login
-              </Button>
+              <>
+                <Button
+                  sx={{
+                    display: { xs: 'none', sm: 'inline-flex' },
+                  }}
+                  color="inherit"
+                  onClick={props.handleLogin}
+                  startIcon={<LoginIcon />}>
+                  {props.i18n('menu.header.button.login')}
+                </Button>
+                <IconButton
+                  sx={{
+                    display: { xs: 'inline-flex', sm: 'none' },
+                  }}
+                  color="inherit"
+                  onClick={props.handleLogin}
+                >
+                  <LoginIcon />
+                </IconButton>
+              </>
             :
             <Box sx={{ flexGrow: 0, marginLeft: 3 }}>
               <Tooltip title={props.name}>
@@ -217,7 +286,7 @@ export default function Header(props) {
                     <Typography>Logout</Typography>
                   </Stack>
                 </MenuItem>
-            </Menu>
+              </Menu>
             </Box>
           }
         </Toolbar>
@@ -238,10 +307,7 @@ export default function Header(props) {
           overflow: 'auto',
         }}>
           {
-            <Filters
-              modalidades={props.modalidades}
-              categorias={props.categorias}
-            />
+            <MenuActions />
           }
         </Box>
       </Drawer>

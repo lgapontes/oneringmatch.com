@@ -17,11 +17,38 @@ import { get } from './utils/Api';
 import { useTheme } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import i18n from "i18next";
+import { useTranslation, initReactI18next } from "react-i18next";
+import { EN_US } from './locales/enUS';
+import { PT_BR } from './locales/ptBR';
+
+const LANGUAGES = {
+  'English': {translation: EN_US},
+  'Português': {translation: PT_BR},
+};
+
+i18n
+  .use(initReactI18next)
+  .init({
+    resources: LANGUAGES,
+    lng: "English",
+    fallbackLng: "English",
+    interpolation: {
+      escapeValue: false
+    }
+  });
+
 export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export const FRONTEND_VERSION = process.env.REACT_APP_FRONTEND_VERSION;
 
 function App() {
   const navigate = useNavigate();
+
+  const { t, i18n } = useTranslation();
+
+  const handleChangeLanguage = (lang) => {
+    i18n.changeLanguage(lang)
+  };
 
   const { pathname } = useLocation();
   const isLoginPathActive = !!matchPath("/login/*", pathname);
@@ -29,8 +56,6 @@ function App() {
 
   const [basicData,setBasicData] = useState({
     version: '0.0-0.0 DEV',
-    categorias: [],
-    modalidades: [],
     tamanho_arquivo_picture: 2,
   });
 
@@ -125,9 +150,7 @@ function App() {
     setLoadingLogin(true);
 
     get('api/lists',(json,message,severity)=>{
-      basicData.version = `Lootbook, v${FRONTEND_VERSION}-${json.version.version}`;
-      basicData.categorias = json.categorias;
-      basicData.modalidades = json.modalidades;
+      basicData.version = `OneRing Match, v${FRONTEND_VERSION}-${json.version.version}`;
       basicData.tamanho_arquivo_picture = json.tamanho_arquivo_picture;
 
       /* Versão do sistema */
@@ -226,10 +249,12 @@ function App() {
       />
 
       <Header
+        i18n={t}
+        languages={Object.keys(LANGUAGES)}
+        handleChangeLanguage={handleChangeLanguage}
+
         name={user.nome_ajustado}
         picture={user.picture}
-        categorias={basicData.categorias}
-        modalidades={basicData.modalidades}
         handleLogin={handleLogin}
         handleLogout={handleLogout}
         loadingList={loadingList}

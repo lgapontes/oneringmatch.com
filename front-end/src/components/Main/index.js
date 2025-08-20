@@ -12,6 +12,7 @@ import Logger from '../../components/Logger';
 
 import WaitingLogin from '../../utils/WaitingLogin';
 import ChangeUser from '../../components/ChangeUser';
+import CharacterSheet from '../../components/CharacterSheet';
 
 const left = (DRAWER_WIDTH / 8) + 2;
 
@@ -55,9 +56,7 @@ export default function Main(props) {
         />
 
         <Route exact path="/" element={
-          <Box>
-            Main
-          </Box>
+          <CharacterSheet />
         } />
 
         <Route path="notfound" element={<NotFound />} />

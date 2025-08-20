@@ -9,6 +9,7 @@ npm update typescript
 npm install react-i18next i18next
 
 npm run dev
+npm run start
 npm run build
 
 PATH=%PATH%;C:\dev\node\node-v22.17.1-win-x64
@@ -22,6 +23,8 @@ rmvirtualenv oneringmatch
 
 python.exe -m pip install --upgrade pip
 pip install -r requirements.txt
+
+pip install --trusted-host pypi.org --index-url https://pypi.org/simple/ i18next-http-backend
 
 npm install @mui/material @mui/icons-material @fontsource/roboto @emotion/react @emotion/styled
 
@@ -73,6 +76,10 @@ Bout of Madness
 ### Experience
 Increase Skill and Adventure Points
 Change Skill and Adventure Points
+
+### Experience
+Increase Points
+Change Points
 
 ### Fellowship Phases
 Start Fellowship Phases <GiteIcon />
@@ -127,6 +134,10 @@ https://www.django-rest-framework.org/api-guide/authentication/
 
 Ngnix with Gunicorn:
 https://stackoverflow.com/questions/20163233/deploying-django-project-with-gunicorn-and-nginx/20529091#20529091
+
+Buttons
+https://stackoverflow.com/questions/43694588/can-i-use-css-to-distort-borders-so-they-look-like-sketched
+https://www.w3schools.com/cssref/playdemo.php?filename=playcss_background-size&preval=cover
 
 ## Colors
 ```
