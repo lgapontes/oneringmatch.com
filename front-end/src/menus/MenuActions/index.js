@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -59,7 +59,28 @@ import IconChangePoints from '../../icons/IconChangePoints';
 import IconPerformUpdates from '../../icons/IconPerformUpdates';
 import IconSpiritualRecovery from '../../icons/IconSpiritualRecovery';
 
+import { rollDice } from '../../sheet/Rules';
+
 export default function MenuActions(props) {
+
+  useEffect(()=>{
+    /*
+    rollDice(
+      false, // adversary
+      false, // miserable
+      false, // weary
+      10, // piercingBlowLimit
+      false, // shadowEqualsMaxHope
+      false, // favoured
+      false, // illFavored
+      2, // numberOfSuccessDice
+      12, // target
+      (result)=>{
+        console.log(result);
+      }
+    );
+    */
+  },[]);
 
   const attackRoll = () => {
     return (

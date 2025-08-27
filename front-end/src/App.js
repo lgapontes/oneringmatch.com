@@ -21,10 +21,22 @@ import i18n from "i18next";
 import { useTranslation, initReactI18next } from "react-i18next";
 import { EN_US } from './locales/enUS';
 import { PT_BR } from './locales/ptBR';
+import { ES_ES } from './locales/esES';
+import { FR_FR } from './locales/frFR';
+import { DE_DE } from './locales/deDE';
+
+import Aniron from './fonts/aniron.ttf';
+import NewBaskerville from './fonts/newbaskerville.woff';
+
+import { rollDice, isValidIndex, clone, mergeDictionaries } from './sheet/Rules';
+import { NEW_CHARACTER, HEROIC_CULTURES, STANDARDS_OF_LIVING } from './sheet/Data';
 
 const LANGUAGES = {
   'English': {translation: EN_US},
   'Português': {translation: PT_BR},
+  'Español': {translation: ES_ES},
+  'Français': {translation: FR_FR},
+  'Deutsch': {translation: DE_DE},
 };
 
 i18n
@@ -43,11 +55,70 @@ export const FRONTEND_VERSION = process.env.REACT_APP_FRONTEND_VERSION;
 
 function App() {
   const navigate = useNavigate();
+  const { t, i18n, ready } = useTranslation();
+  const [character,setCharacter] = useState(NEW_CHARACTER);
+  const [editingCharacterSheet,setEditingCharacterSheet] = useState(true);
 
-  const { t, i18n } = useTranslation();
+  const changeCharacter = (changedCharacter) => {
+    setCharacter(character => ({
+      ...character,
+      ...changedCharacter
+    }));
+  };
+
+  const changeStandardsOfLiving = (standards_of_living_index) => {
+    if (isValidIndex(standards_of_living_index)) {
+      let localStandardsOfLiving = clone(STANDARDS_OF_LIVING[standards_of_living_index]);
+      let standards_of_living = t(`sheet.character-sheet.standards-of-living.${standards_of_living_index}`);
+      let starting_treasure_rating = localStandardsOfLiving.starting_treasure_rating;
+
+      let changedCharacter = {
+        standard_of_living: standards_of_living,
+        standard_of_living_index: standards_of_living_index,
+        starting_treasure_rating: starting_treasure_rating,
+      };
+      return changedCharacter;
+    } else {
+      return {};
+    }
+  };
+
+  const changeHeroicCulture = (indexHeroicCulture) => {
+    if (isValidIndex(indexHeroicCulture)) {
+      /* Heroic Culture*/
+      let localHeroicCulture = t('sheet.character-sheet.heroic-cultures', { returnObjects: true })[indexHeroicCulture];
+
+      /* Cultural Blessing */
+      let culturalBlessingName = t(`heroic-cultures.${indexHeroicCulture}.cultural-blessing-name`).toUpperCase();
+      let culturalBlessingRules = t(`heroic-cultures.${indexHeroicCulture}.cultural-blessing-rules`);
+
+      /* Standards of living */
+      let standards_of_living_index = HEROIC_CULTURES[indexHeroicCulture].standard_of_living;
+      let standardOfLiving = changeStandardsOfLiving(standards_of_living_index);
+
+      /* Range ages */
+      let localRangeAges = clone(HEROIC_CULTURES[indexHeroicCulture].range_ages);
+
+      let changedCharacter = mergeDictionaries(standardOfLiving,{
+        heroic_culture: localHeroicCulture,
+        heroic_culture_index: indexHeroicCulture,
+        cultural_blessing_name: culturalBlessingName,
+        cultural_blessing: culturalBlessingRules,
+        treasure: standardOfLiving.starting_treasure_rating,
+        range_ages: localRangeAges,
+      });
+
+      return changedCharacter;
+    } else {
+      return {};
+    }
+  };
 
   const handleChangeLanguage = (lang) => {
     i18n.changeLanguage(lang)
+    let heroicCulture = changeHeroicCulture(character.heroic_culture_index);
+    let changedCharacter = mergeDictionaries(heroicCulture,{language: lang});
+    changeCharacter(changedCharacter);
   };
 
   const { pathname } = useLocation();
@@ -146,6 +217,21 @@ function App() {
   }
 
   useEffect(()=>{
+    rollDice(
+      false, // adversary
+      false, // miserable
+      false, // weary
+      10, // piercingBlowLimit
+      false, // shadowEqualsMaxHope
+      false, // favoured
+      false, // illFavored
+      2, // numberOfSuccessDice
+      12, // target
+      (result)=>{
+        console.log(result);
+      }
+    );
+
     setLoadingList(true);
     setLoadingLogin(true);
 
@@ -231,7 +317,31 @@ function App() {
       breakpoints: { values: { ...breakpointOverrides } },
       palette: {
         secondary: {
-          main: '#7b4296',
+          main: '#CE8786',
+        },
+        brown: {
+          main: '#877e76', //'#422300',
+        },
+      },
+      components: {
+        MuiCssBaseline: {
+          styleOverrides: `
+            @font-face {
+              font-family: 'Aniron';
+              font-style: normal;
+              font-display: swap;
+              font-weight: 400;
+              src: local('Aniron'), local('Aniron-Regular'), url(${Aniron}) format('truetype');
+            }
+
+            @font-face {
+              font-family: 'NewBaskerville';
+              font-style: normal;
+              font-display: swap;
+              font-weight: 400;
+              src: local('NewBaskerville'), local('NewBaskerville-Regular'), url(${NewBaskerville}) format('woff');
+            }
+          `,
         },
       },
     });
@@ -252,6 +362,7 @@ function App() {
         i18n={t}
         languages={Object.keys(LANGUAGES)}
         handleChangeLanguage={handleChangeLanguage}
+        language={i18n.language}
 
         name={user.nome_ajustado}
         picture={user.picture}
@@ -264,6 +375,14 @@ function App() {
       >
       </Header>
       <Main
+        i18n={t}
+        i18nReady={ready}
+        character={character}
+        changeHeroicCulture={changeHeroicCulture}
+        changeStandardsOfLiving={changeStandardsOfLiving}
+        changeCharacter={changeCharacter}
+        editingCharacterSheet={editingCharacterSheet}
+
         user={user}
         onUserChanged={setUser}
         setLoading={setLoading}
@@ -287,22 +406,3 @@ function App() {
 }
 
 export default App;
-
-
-/*
-
-<Box className="primary-color" sx={{
-  position: 'fixed',
-  bottom: 0,
-  left: 0,
-  right: 0,
-  borderRadius: 0,
-  height: 40,
-  textAlign: 'center',
-  zIndex: (theme) => theme.zIndex.drawer + 1,
-}} elevation={3}>
-  <Typography color="#ffffff" sx={{ mt: 1 }}>Flecha Mágica</Typography>
-  <Typography color="#ffffff" sx={{ fontSize: 10, mt: 1 }}>{basicData.version}</Typography>
-</Box>
-
-*/

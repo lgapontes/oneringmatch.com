@@ -171,7 +171,7 @@ export default function Header(props) {
             color="inherit"
             onClick={handleOpenLanguageMenu}
             startIcon={<LanguageIcon />}>
-            {props.i18n('menu.header.button.language')}
+            {props.language}          
           </Button>
           <IconButton
             sx={{

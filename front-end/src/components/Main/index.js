@@ -12,7 +12,7 @@ import Logger from '../../components/Logger';
 
 import WaitingLogin from '../../utils/WaitingLogin';
 import ChangeUser from '../../components/ChangeUser';
-import CharacterSheet from '../../components/CharacterSheet';
+import CharacterSheet from '../../sheet/CharacterSheet';
 
 const left = (DRAWER_WIDTH / 8) + 2;
 
@@ -56,7 +56,15 @@ export default function Main(props) {
         />
 
         <Route exact path="/" element={
-          <CharacterSheet />
+          <CharacterSheet
+            i18n={props.i18n}
+            i18nReady={props.i18nReady}
+            character={props.character}
+            changeHeroicCulture={props.changeHeroicCulture}
+            changeStandardsOfLiving={props.changeStandardsOfLiving}
+            changeCharacter={props.changeCharacter}
+            editingCharacterSheet={props.editingCharacterSheet}
+          />
         } />
 
         <Route path="notfound" element={<NotFound />} />

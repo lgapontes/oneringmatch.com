@@ -141,7 +141,6 @@ https://www.w3schools.com/cssref/playdemo.php?filename=playcss_background-size&p
 
 ## Colors
 ```
-#7b4296
 #db2330
 linear-gradient('#7b4296','#db2330')
 linear-gradient(to bottom,"#24142e","#3f3045")
