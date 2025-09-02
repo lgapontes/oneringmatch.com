@@ -34,27 +34,49 @@ export const NEW_CHARACTER = {
   genre: '',
   imagem_path: '',
   treasure: 0,
-  flaws: '',
+  flaws: [],
   patron: '',
+  patron_fellowship_bonus: 0,
+  patron_advantage: '',
   favoured_skills: [],
   ponies_and_horses: '',
-  skills: {},
+  skills: {
+    'Awe': 0,
+    'Athletics': 0,
+    'Awareness': 0,
+    'Hunting': 0,
+    'Song': 0,
+    'Craft': 0,
+    'Enhearten': 0,
+    'Travel': 0,
+    'Insight': 0,
+    'Healing': 0,
+    'Courtesy': 0,
+    'Battle': 0,
+    'Persuade': 0,
+    'Stealth': 0,
+    'Scan': 0,
+    'Explore': 0,
+    'Riddle': 0,
+    'Lore': 0,
+  },
   combat_proficiencies: {
     'Axes': 0,
     'Bows': 0,
     'Spears': 0,
-    'Swords': 0
+    'Swords': 0,
+    'Brawling': 0,
   },
   initial_combat_proficiencies: {},
   favorite_weapon: '',
   distinctive_features: [],
   shadow_path: '',
+  shadow_path_index: '',
   war_gear: [],
   armour: null,
   helm: null,
   shield: null,
   can_use_shield: true,
-  rewards_list: {},
   useful_items: [],
   extra_notes: '',
   current_stats: {
@@ -72,6 +94,7 @@ export const NEW_CHARACTER = {
     wounded: false,
     injury: ''
   },
+  rewards_list: {},
   rewards: {
     name: '',
     notes: '',
@@ -138,6 +161,147 @@ export const STANDARDS_OF_LIVING = [
     shields: [0,1,2],
     useful_items: 4,
     ponies_and_horses: [4,5]
+  },
+];
+
+export const SKILLS = {
+  'Awe': 0,
+  'Athletics': 1,
+  'Awareness': 2,
+  'Hunting': 3,
+  'Song': 4,
+  'Craft': 5,
+  'Enhearten': 6,
+  'Travel': 7,
+  'Insight': 8,
+  'Healing': 9,
+  'Courtesy': 10,
+  'Battle': 11,
+  'Persuade': 12,
+  'Stealth': 13,
+  'Scan': 14,
+  'Explore': 15,
+  'Riddle': 16,
+  'Lore': 17,
+};
+
+export const SKILLS_PER_ATTRIBUTE = {
+  'strength': [
+    'Awe',
+    'Athletics',
+    'Awareness',
+    'Hunting',
+    'Song',
+    'Craft',
+  ],
+  'heart': [
+    'Enhearten',
+    'Travel',
+    'Insight',
+    'Healing',
+    'Courtesy',
+    'Battle',
+  ],
+  'wits': [
+    'Persuade',
+    'Stealth',
+    'Scan',
+    'Explore',
+    'Riddle',
+    'Lore',
+  ],
+};
+
+export const DISTINCTIVE_FEATURES = {
+  'Bold': 0,
+  'Cunning': 1,
+  'Eager': 2,
+  'Faithful': 3,
+  'Fair': 4,
+  'Fair-Spoken': 5,
+  'Fierce': 6,
+  'Generous': 7,
+  'Honourable': 8,
+  'Inquisitive': 9,
+  'Keen-Eyed': 10,
+  'Lordly': 11,
+  'Merry': 12,
+  'Patient': 13,
+  'Proud': 14,
+  'Rustic': 15,
+  'Secretive': 16,
+  'Stern': 17,
+  'Subtle': 18,
+  'Swift': 19,
+  'Tall': 20,
+  'True-Hearted': 21,
+  'Wary': 22,
+  'Wilful': 23,
+};
+
+export const ADDITIONAL_DISTINCTIVE_FEATURES = {
+  'Leadership': 0,
+  'Enemy-Lore: Evil Men': 1,
+  'Enemy-Lore: Orcs': 2,
+  'Enemy-Lore: Spiders': 3,
+  'Enemy-Lore: Trolls': 4,
+  'Enemy-Lore: Wargs': 5,
+  'Enemy-Lore: Undead': 6,
+  'Folk-Lore': 7,
+  'Rhymes of Lore': 8,
+  'Burglary': 9,
+  'Shadow-Lore': 10,
+};
+
+export const COMBAT_PROFICIENCIES = {
+  'Axes': ['Axe','Long-hafted Axe','Great Axe','Mattock'],
+  'Bows': ['Bow','Great Bow'],
+  'Spears': ['Short Spear','Spear','Great Spear'],
+  'Swords': ['Short Sword','Sword','Long Sword'],
+  'Brawling': ['Dagger','Cudgel','Club'],
+};
+
+export const CALLINGS = [
+  /* Captain */
+  {
+    two_favoured_skills: ['Battle','Enhearten','Persuade'],
+    additional_distinctive_feature: ['Leadership'],
+    shadow_path: 0
+  },
+
+  /* Champion */
+  {
+    two_favoured_skills: ['Athletics', 'Awe', 'Hunting'],
+    additional_distinctive_feature: ['Enemy-Lore: Evil Men','Enemy-Lore: Orcs','Enemy-Lore: Spiders','Enemy-Lore: Trolls','Enemy-Lore: Wargs','Enemy-Lore: Undead'],
+    shadow_path: 1
+  },
+
+  /* Messenger */
+  {
+    two_favoured_skills: ['Courtesy', 'Song', 'Travel'],
+    additional_distinctive_feature: ['Folk-Lore'],
+    shadow_path: 2
+  },
+
+  /* Scholar */
+  {
+    two_favoured_skills: ['Craft', 'Lore', 'Riddle'],
+    additional_distinctive_feature: ['Rhymes of Lore'],
+    shadow_path: 3
+  },
+
+  /* Treasure Hunter */
+  {
+    two_favoured_skills: ['Explore', 'Scan', 'Stealth'],
+    additional_distinctive_feature: ['Burglary'],
+    shadow_path: 4
+  },
+
+  /* Warden */
+  {
+    two_favoured_skills: ['Awareness', 'Healing', 'Insight'],
+    additional_distinctive_feature: ['Shadow-Lore'],
+    shadow_path: 5
   },
 ];
 

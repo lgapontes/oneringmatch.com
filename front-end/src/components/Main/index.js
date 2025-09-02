@@ -56,15 +56,7 @@ export default function Main(props) {
         />
 
         <Route exact path="/" element={
-          <CharacterSheet
-            i18n={props.i18n}
-            i18nReady={props.i18nReady}
-            character={props.character}
-            changeHeroicCulture={props.changeHeroicCulture}
-            changeStandardsOfLiving={props.changeStandardsOfLiving}
-            changeCharacter={props.changeCharacter}
-            editingCharacterSheet={props.editingCharacterSheet}
-          />
+          <CharacterSheet {...props} />
         } />
 
         <Route path="notfound" element={<NotFound />} />

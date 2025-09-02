@@ -58,6 +58,7 @@ import IconIncreasePoints from '../../icons/IconIncreasePoints';
 import IconChangePoints from '../../icons/IconChangePoints';
 import IconPerformUpdates from '../../icons/IconPerformUpdates';
 import IconSpiritualRecovery from '../../icons/IconSpiritualRecovery';
+import IconFeatDieGray from '../../icons/IconFeatDieGray';
 
 import { rollDice } from '../../sheet/Rules';
 
@@ -110,7 +111,7 @@ export default function MenuActions(props) {
           sx={{ pt: 0.6, pb: 0.6, m: 0 }}
         >
           <ListItemIcon sx={{ minWidth: '40px', }}>
-            <IconSkillRoll />
+            <IconFeatDieGray />
           </ListItemIcon>
           <ListItemText primary="Skill Roll" />
         </ListItemButton>

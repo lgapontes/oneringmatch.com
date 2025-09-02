@@ -6,7 +6,7 @@ import { isValid, cloneArray } from '../Rules';
 
 export default function Header(props) {
 
-  const handleChangeName = (event) => {
+  const handleChangeName2 = (event) => {
     let value = event.target.value;
     let changedCharacter = {
       name: '',
@@ -31,9 +31,24 @@ export default function Header(props) {
     props.changeCharacter(changedCharacter);
   };
 
+  const handleChangeName = (event) => {
+    let value = event.target.value;
+    let changedCharacter = {
+      name: '',
+      family_name: '',
+    };
+
+    if (isValid(value)) {
+      let values = value.split(' ');
+      changedCharacter.name = value;
+    }
+
+    props.changeCharacter(changedCharacter);
+  };
+
   const styles = {
     header: {
-      backgroundImage: `url(${"img/sheet-header.png"})`,
+      backgroundImage: `url(${"img/sheet/sheet-header.png"})`,
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'auto',
       backgroundPosition: 'center',
@@ -46,7 +61,7 @@ export default function Header(props) {
     },
 
     inputImage: {
-      backgroundImage: `url(${"img/sheet-header-name.png"})`,
+      backgroundImage: `url(${"img/sheet/sheet-header-name.png"})`,
       backgroundRepeat: 'no-repeat',
       backgroundSize: '400px',
       backgroundPosition: 'center',
@@ -88,6 +103,7 @@ export default function Header(props) {
             fontSize: '1.6em',
             height: '38px',
             width: '350px',
+            color: 'rgba(0, 0, 0, 0.87)',
           }}}
           sx={{
             "& fieldset": {
@@ -103,6 +119,7 @@ export default function Header(props) {
               }
             }
           }}
+          value={props.character.name}
           onChange={handleChangeName}
         />
       </Box>

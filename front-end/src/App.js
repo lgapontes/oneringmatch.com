@@ -28,8 +28,13 @@ import { DE_DE } from './locales/deDE';
 import Aniron from './fonts/aniron.ttf';
 import NewBaskerville from './fonts/newbaskerville.woff';
 
-import { rollDice, isValidIndex, clone, mergeDictionaries } from './sheet/Rules';
-import { NEW_CHARACTER, HEROIC_CULTURES, STANDARDS_OF_LIVING } from './sheet/Data';
+import { rollDice, isValidIndex, clone, mergeDictionaries, isValid } from './sheet/Rules';
+import {
+  NEW_CHARACTER,
+  HEROIC_CULTURES,
+  STANDARDS_OF_LIVING,
+  CALLINGS,
+} from './sheet/Data';
 
 const LANGUAGES = {
   'English': {translation: EN_US},
@@ -67,7 +72,7 @@ function App() {
   };
 
   const changeStandardsOfLiving = (standards_of_living_index) => {
-    if (isValidIndex(standards_of_living_index)) {
+    if (isValidIndex(standards_of_living_index,STANDARDS_OF_LIVING)) {
       let localStandardsOfLiving = clone(STANDARDS_OF_LIVING[standards_of_living_index]);
       let standards_of_living = t(`sheet.character-sheet.standards-of-living.${standards_of_living_index}`);
       let starting_treasure_rating = localStandardsOfLiving.starting_treasure_rating;
@@ -83,8 +88,41 @@ function App() {
     }
   };
 
+  const changeCalling = (indexCalling) => {
+    if (isValidIndex(indexCalling,CALLINGS)) {
+      let localCalling = clone(CALLINGS[indexCalling]);
+      let calling = t(`sheet.character-sheet.callings.${indexCalling}`);
+      let indexShadowPath = localCalling.shadow_path;
+      let shadow_path = t(`sheet.character-sheet.shadow-paths.${indexShadowPath}`);
+
+      let changedCharacter = {
+        calling: calling,
+        calling_index: indexCalling,
+        shadow_path: shadow_path,
+        shadow_path_index: indexShadowPath,
+      };
+      return changedCharacter;
+    } else {
+      return {};
+    }
+  };
+
+  const changeShadowPath = (shadowScars) => {
+    if (shadowScars < 0) shadowScars = 0;
+    if (shadowScars > 4) shadowScars = 4;
+    let flaws = Array.from({length: shadowScars}, (v, i) => i);
+
+    let changedCharacter = {
+      flaws: flaws,
+      current_stats: mergeDictionaries(character.current_stats,{
+        shadow_scars: shadowScars,
+      }),
+    };
+    return changedCharacter;
+  };
+
   const changeHeroicCulture = (indexHeroicCulture) => {
-    if (isValidIndex(indexHeroicCulture)) {
+    if (isValidIndex(indexHeroicCulture,HEROIC_CULTURES)) {
       /* Heroic Culture*/
       let localHeroicCulture = t('sheet.character-sheet.heroic-cultures', { returnObjects: true })[indexHeroicCulture];
 
@@ -114,11 +152,31 @@ function App() {
     }
   };
 
+  const changeCombatProficiencies = (proficiencie) => {
+    let combat_proficiencies = clone(character.combat_proficiencies);
+
+    let value = combat_proficiencies[proficiencie] + 1;
+    if (value > 6) value = 0;
+    combat_proficiencies[proficiencie] = value;
+
+    let list = Object.keys(combat_proficiencies).filter((entry) => entry !== 'Brawling');
+    let brawling = Math.max(...list.map(entry => combat_proficiencies[entry]));
+    brawling = brawling - 1;
+    if (brawling < 0) brawling = 0;
+    combat_proficiencies['Brawling'] = brawling;
+
+    character.combat_proficiencies = combat_proficiencies;
+    changeCharacter(character);
+  };
+
   const handleChangeLanguage = (lang) => {
     i18n.changeLanguage(lang)
     let heroicCulture = changeHeroicCulture(character.heroic_culture_index);
-    let changedCharacter = mergeDictionaries(heroicCulture,{language: lang});
-    changeCharacter(changedCharacter);
+    let calling = changeCalling(character.calling_index);
+    let changedCharacter = mergeDictionaries(heroicCulture,calling);
+    changeCharacter(
+      mergeDictionaries(changedCharacter,{language: lang})
+    );
   };
 
   const { pathname } = useLocation();
@@ -217,6 +275,8 @@ function App() {
   }
 
   useEffect(()=>{
+    // TESTS
+    /*
     rollDice(
       false, // adversary
       false, // miserable
@@ -231,6 +291,29 @@ function App() {
         console.log(result);
       }
     );
+    */
+
+    let changedCharacterWithDistinctiveFeatures = {
+      distinctive_features: ['Fair-Spoken','Patient','Enemy-Lore: Evil Men'],
+    };
+    let changedCharacterWithFlaws = changeShadowPath(1);
+    let changedCharacter1 = mergeDictionaries(changedCharacterWithDistinctiveFeatures,changedCharacterWithFlaws);
+    let changedCharacter2 = mergeDictionaries(changedCharacter1,{imagem_path: 'img/characters/dwarves_of_durins_folk/m0.jpg'});
+
+    changedCharacter2.skills = mergeDictionaries(character.skills,{
+      'Battle': 2
+    });
+    changedCharacter2.favoured_skills = ['Battle'];
+
+    let attributes = mergeDictionaries(character.attributes,{
+      heart: 5,
+      TN_heart: 15,
+      hope: 13,
+    });
+    changedCharacter2.attributes = attributes;
+
+    changeCharacter(changedCharacter2);
+    // TESTS
 
     setLoadingList(true);
     setLoadingLogin(true);
@@ -380,6 +463,8 @@ function App() {
         character={character}
         changeHeroicCulture={changeHeroicCulture}
         changeStandardsOfLiving={changeStandardsOfLiving}
+        changeCalling={changeCalling}
+        changeCombatProficiencies={changeCombatProficiencies}
         changeCharacter={changeCharacter}
         editingCharacterSheet={editingCharacterSheet}
 

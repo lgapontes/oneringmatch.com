@@ -39,7 +39,17 @@ export const isNumeric = (str) => {
          !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
 };
 
-export const isValidIndex = (value) => {
+export const convertValueToNumber = (value) => {
+  let numberPattern = /\d+/g;
+  let values = value.match(numberPattern);
+  return (isValid(values) && values.length > 0) ? parseInt(values.join(''), 10) : '';
+};
+
+export const keyInDict = (key,dict) => {
+  return (key in dict);
+};
+
+export const isValidIndex = (value,array) => {
   if (value === undefined) {
     return false;
   } else if (value === null) {
@@ -47,7 +57,11 @@ export const isValidIndex = (value) => {
   } else {
     if (!isNaN(value) && !isNaN(parseInt(value))) {
       if (typeof value === "number") {
-        return true;
+        if ( (value > -1) && (value < array.length) ) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }
@@ -160,6 +174,12 @@ export const rollDice = (adversary,miserable,weary,piercingBlowLimit,shadowEqual
 
   /* Number of feat dice rolled */
   let featDice = 1;
+
+  if (favoured) {
+    favoured = true;
+    illFavored = false;
+    featDice = 2;
+  }
 
   if (shadowEqualsMaxHope) {
     illFavored = true;
