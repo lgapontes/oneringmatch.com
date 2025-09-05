@@ -188,6 +188,11 @@ export const FR_FR = {
         /* 10 */ 'Conscience de l\'Ombre',
       ],
       'distinctive-features-label': 'Particularités',
+      'distinctive-features-button': 'Modifier les Particularités',
+      'distinctive-features-by-heroic-culture-description': 'Sélectionnez deux Particularités à ajouter au personnage.',
+      'all-distinctive-features-description': 'Sélectionnez deux Particularités de la Culture Héroïque et un de la Vocation à ajouter à votre personnage.',
+      'distinctive-features-by-heroic-culture': 'de la Culture Héroïque',
+      'distinctive-features-by-calling': 'de la Vocation',
       'flaws': [
         /* 00 - Lure of Power */
         ['Rennuyeux', 'Arrogant', 'Prudent', 'Tyrannique',],
@@ -203,6 +208,7 @@ export const FR_FR = {
         ['Troublé', 'Hésitant', 'Culbutieux', 'Peureux',],
       ],
       'flaws-label': 'Défauts',
+      'flaws-button': 'Modifier les Défauts',
       'adventure-points': 'Points d\'aventure',
       'skill-points': 'Points de progression',
       'fellowship-score': 'Points de communauté',
@@ -230,6 +236,15 @@ export const FR_FR = {
         'Épées',
         'Sans armes',
       ],
+    },
+    'button': {
+      'save-changes': 'Enregistrer les modifications',
+      'cancel': 'Annuler',
+      'add': 'Ajouter',
+    },
+    'messages': {
+      'distinctive-features-by-calling': 'Cette Particularité appartient à la Vocation et ne peut être supprimée.',
+      'select-heroic-culture-and-calling': 'Sélectionnez d\'abord la Culture Héroïque et la Vocation.',
     },
   },
 

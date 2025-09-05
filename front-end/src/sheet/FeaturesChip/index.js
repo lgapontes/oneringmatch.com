@@ -3,7 +3,6 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { isValid } from '../Rules';
 
 export default function FeaturesChip(props) {
 
@@ -15,13 +14,42 @@ export default function FeaturesChip(props) {
       borderBottom: '2px solid #877e76',
       minHeight: '64px',
     },
+
     InputLabel: {
       marginTop: '12px',
       marginLeft: '-10px',
     },
+
     Stack: {
-      padding: '12px 8px 8px',
+      padding: '12px 8px 2px',
       minHeight: '32px',
+    },
+
+    StackBreakline: {
+      padding: '12px 8px 0',
+      minHeight: '32px',
+    },
+
+    Chips: {
+      '& .MuiChip-label': {
+        fontFamily: 'NewBaskerville',
+        fontSize: '1.1em',
+      },
+      marginLeft: 1,
+      marginBottom: '6px',
+    },
+
+    ChipsBreakline: {
+      '& .MuiChip-label': {
+        fontFamily: 'NewBaskerville',
+        fontSize: '1.1em',
+      },
+      height: 'auto',
+      '& .MuiChip-label': {
+        display: 'block',
+        whiteSpace: 'normal',
+      },
+      marginBottom: 1,
     },
   };
 
@@ -44,29 +72,29 @@ export default function FeaturesChip(props) {
       <Stack
         direction="row"
         flexWrap="wrap"
-        spacing={1}
-        style={styles.Stack}
+        spacing={0}
+        sx={(props.breakline) ? styles.StackBreakline : styles.Stack}
       >
         {
           props.values.map((entry,index)=>(
-            <Chip
-              label={entry}
-              key={`${entry}-${index}`}
-              color="secondary"
-              variant="outlined"
-              sx={{
-                '& .MuiChip-label': {
-                  fontFamily: 'NewBaskerville',
-                  fontSize: '1.1em',
-                },
-                minHeight: '22px',
-                height: 'auto',
-                '& .MuiChip-label': {
-                  display: 'block',
-                  whiteSpace: 'normal',
-                },
-              }}
-            />
+            props.canDeleteIt ? (
+              <Chip
+                label={entry}
+                key={`${entry}-${index}`}
+                color="secondary"
+                variant="outlined"
+                sx={(props.breakline) ? styles.ChipsBreakline : styles.Chips}
+                onDelete={()=>props.handleDelete(entry)}
+              />
+            ) : (
+              <Chip
+                label={entry}
+                key={`${entry}-${index}`}
+                color="secondary"
+                variant="outlined"
+                sx={(props.breakline) ? styles.ChipsBreakline : styles.Chips}
+              />
+            )
           ))
         }
       </Stack>

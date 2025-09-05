@@ -314,6 +314,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 3,
     range_ages: {min: 18, max: 40},
+    distinctive_features: ['Bold','Eager','Fair','Fierce','Generous','Proud','Tall','Wilful'],
   },
 
   /* 1 - Dwarves of Durin's Folk */
@@ -324,6 +325,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 3,
     range_ages: {min: 50, max: 90},
+    distinctive_features: ['Cunning','Fierce','Lordly','Proud','Secretive','Stern','Wary','Wilful'],
   },
 
   /* 2 - Elves of Lindon */
@@ -334,6 +336,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 1,
     range_ages: {min: 100, max: 300},
+    distinctive_features: ['Fair','Keen-Eyed', 'Lordly', 'Merry', 'Patient', 'Subtle', 'Swift', 'Wary'],
   },
 
   /* 3 - Hobbits of the Shire */
@@ -344,6 +347,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 2,
     range_ages: {min: 33, max: 50},
+    distinctive_features: ['Eager','Fair-Spoken','Faithful','Honourable','Inquisitive','Keen-Eyed','Merry','Rustic'],
   },
 
   /* 4 - Men of Bree */
@@ -354,6 +358,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 2,
     range_ages: {min: 18, max: 40},
+    distinctive_features: ['Cunning', 'Fair-Spoken', 'Faithful', 'Generous', 'Inquisitive', 'Patient', 'Rustic', 'True-Hearted'],
   },
 
   /* 5 - Rangers of the North */
@@ -364,6 +369,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 1,
     range_ages: {min: 20, max: 50},
+    distinctive_features: ['Bold','Honourable', 'Secretive', 'Stern', 'Subtle', 'Swift', 'Tall', 'True-Hearted'],
   },
 
   /* 6 - High Elves of Rivendell */
@@ -374,6 +380,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 3,
     range_ages: {min: 100, max: 300},
+    distinctive_features: ['Fair','Keen-Eyed', 'Lordly', 'Inquisitive', 'Merry', 'Proud', 'Subtle', 'Wilful'],
   },
 
   /* 7 - Beornings */
@@ -384,6 +391,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 2,
     range_ages: {min: 14, max: 40},
+    distinctive_features: ['Bold', 'Fierce', 'Generous', 'Honourable', 'Rustic', 'Stern', 'Tall', 'Wary'],
   },
 
   /* 8 - Elves of Mirkwood */
@@ -394,6 +402,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 1,
     range_ages: {min: 300, max: 700},
+    distinctive_features: ['Cunning', 'Fair', 'Fierce', 'Keen-Eyed', 'Merry', 'Proud', 'Secretive', 'Swift'],
   },
 
   /* 9 - Woodmen of Wilderland */
@@ -404,6 +413,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 1,
     range_ages: {min: 16, max: 55},
+    distinctive_features: ['Cunning', 'Eager', 'Faithful', 'Patient', 'Stern', 'Swift', 'True-Hearted', 'Wary'],
   },
 
   /* 10 - Dwarves of Nogrod and Belegost */
@@ -414,6 +424,7 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 2,
     range_ages: {min: 50, max: 90},
+    distinctive_features: ['Cunning','Fierce','Proud','Rustic','Secretive','Stern','Wary','Wilful'],
   },
 
   /* 11 - Elves of Lórien */
@@ -424,5 +435,6 @@ export const HEROIC_CULTURES = [
     },
     standard_of_living: 1,
     range_ages: {min: 300, max: 700},
+    distinctive_features: ['Cunning', 'Fair', 'Keen-Eyed', 'Merry', 'Proud', 'Secretive', 'Swift', 'Wary'],
   },
 ];

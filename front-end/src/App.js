@@ -294,7 +294,7 @@ function App() {
     */
 
     let changedCharacterWithDistinctiveFeatures = {
-      distinctive_features: ['Fair-Spoken','Patient','Enemy-Lore: Evil Men'],
+      distinctive_features: ['Bold','Eager','Enemy-Lore: Evil Men','Rhymes of Lore'],
     };
     let changedCharacterWithFlaws = changeShadowPath(1);
     let changedCharacter1 = mergeDictionaries(changedCharacterWithDistinctiveFeatures,changedCharacterWithFlaws);
@@ -401,9 +401,11 @@ function App() {
       palette: {
         secondary: {
           main: '#CE8786',
+          dark: '#CE8786',
         },
         brown: {
-          main: '#877e76', //'#422300',
+          main: '#877e76',
+          dark: '#877e76',
         },
       },
       components: {

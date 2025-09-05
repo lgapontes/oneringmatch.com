@@ -188,6 +188,11 @@ export const DE_DE = {
         /* 10 */ 'Schattenkunde',
       ],
       'distinctive-features-label': 'Einzigartiges Merkmal',
+      'distinctive-features-button': 'Einzigartiges Merkmal ändern',
+      'distinctive-features-by-heroic-culture-description': 'Wählen Sie zwei Einzigartige Merkmale aus, die Sie dem Charakter hinzufügen möchten.',
+      'all-distinctive-features-description': 'Wählen Sie zwei Einzigartige Merkmale aus der Heldenhafte Kultur und eines aus der Berufung aus, um es Ihrem Charakter hinzuzufügen.',
+      'distinctive-features-by-heroic-culture': 'der Heldenhafte Kultur',
+      'distinctive-features-by-calling': 'der Berufung',
       'flaws': [
         /* 00 - Lure of Power */
         ['Nachtragend', 'Arrogant', 'Überheblich', 'Tyrannisch',],
@@ -203,6 +208,7 @@ export const DE_DE = {
         ['Beunruhigt', 'Schwankend', 'Schuldgeplagt', 'Ängstlich',],
       ],
       'flaws-label': 'Makel',
+      'flaws-button': 'Makel ändern',
       'adventure-points': 'Abenteuer-punkte',
       'skill-points': 'Fertigkeits-punkte',
       'fellowship-score': 'Gefährten-wert',
@@ -230,6 +236,15 @@ export const DE_DE = {
         'Schwerter',
         'Unbewaffnet',
       ],
+    },
+    'button': {
+      'save-changes': 'Änderungen speichern',
+      'cancel': 'Stornieren',
+      'add': 'Hinzufügen',
+    },
+    'messages': {
+      'distinctive-features-by-calling': 'Dieses Einzigartige Feature gehört zur Berufung und kann nicht gelöscht werden.',
+      'select-heroic-culture-and-calling': 'Wählen Sie zuerst die Heldenhafte Kultur und Berufung aus.',
     },
   },
 

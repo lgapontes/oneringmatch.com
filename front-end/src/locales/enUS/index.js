@@ -188,6 +188,11 @@ export const EN_US = {
         /* 10 */ 'Shadow-Lore',
       ],
       'distinctive-features-label': 'Distinctive Features',
+      'distinctive-features-button': 'Edit Distinctive Features',
+      'distinctive-features-by-heroic-culture-description': 'Select two Distinctive Features to add to the character.',
+      'all-distinctive-features-description': 'Select two Distinctive Features from Heroic Culture and one from Vocation to add to your character.',
+      'distinctive-features-by-heroic-culture': 'of Heroic Culture',
+      'distinctive-features-by-calling': 'of Calling',
       'flaws': [
         /* 00 - Lure of Power */
         ['Resentful', 'Arrogant', 'Overconfident', 'Tyrannical',],
@@ -203,6 +208,7 @@ export const EN_US = {
         ['Troubled', 'Wavering', 'Guilt-ridden', 'Fearful',],
       ],
       'flaws-label': 'Flaws',
+      'flaws-button': 'Edit Flaws',
       'adventure-points': 'Adventure points',
       'skill-points': 'Skill points',
       'fellowship-score': 'Fellowship score',
@@ -230,6 +236,15 @@ export const EN_US = {
         'Swords',
         'Brawling',
       ],
+    },
+    'button': {
+      'save-changes': 'Save Changes',
+      'cancel': 'Cancel',
+      'add': 'Add',
+    },
+    'messages': {
+      'distinctive-features-by-calling': 'This Distinctive Feature belongs to Calling and cannot be deleted.',
+      'select-heroic-culture-and-calling': 'First select the Heroic Culture and Calling.',
     },
   },
 

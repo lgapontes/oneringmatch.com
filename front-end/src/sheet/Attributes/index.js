@@ -146,7 +146,12 @@ export default function Attributes(props) {
       <>
         <FeaturesChip
           label={props.i18n('sheet.character-sheet.rewards')}
-          values={['AFIADO: Causa Golpe Perfurante com 9+ no Dado de Proeza']}
+          values={[
+            'AFIADO: Causa Golpe Perfurante com 9+ no Dado de Proeza',
+            'AFIADO: Causa Golpe Perfurante com 9+ no Dado de Proeza',
+            'AFIADO: Causa Golpe Perfurante com 9+ no Dado de Proeza',
+          ]}
+          breakline={true}
         />
       </>
     );
@@ -283,7 +288,7 @@ export default function Attributes(props) {
             styles={styles}
             label={props.i18n('sheet.character-sheet.combat-proficiencies-label')}
           />
-          {columnProficiencieBox(false)}
+          {columnProficiencieBox(true)}
         </TabPanel>
         <TabPanel value={value} index={1}>
           <TextFieldAttributes

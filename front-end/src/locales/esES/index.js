@@ -188,6 +188,11 @@ export const ES_ES = {
         /* 10 */ 'Saber de la Sombra',
       ],
       'distinctive-features-label': 'Rasgos Distintivos',
+      'distinctive-features-button': 'Editar Rasgos Distintivos',
+      'distinctive-features-by-heroic-culture-description': 'Seleccione dos Rasgos Distintivos para agregarlas al personaje.',
+      'all-distinctive-features-description': 'Selecciona dos Rasgos Distintivos de la Cultura Heroica y uno de la Ocupación para añadirlos a tu personaje.',
+      'distinctive-features-by-heroic-culture': 'de la Cultura Heroica',
+      'distinctive-features-by-calling': 'de la Ocupación',
       'flaws': [
         /* 00 - Lure of Power */
         ['Resentido', 'Arrogante', 'Sobreconfiado', 'Tiránico',],
@@ -203,6 +208,7 @@ export const ES_ES = {
         ['Atribulado', 'Indeciso', 'Culpable', 'Temeroso',],
       ],
       'flaws-label': 'Defectos',
+      'flaws-button': 'Editar Defectos',
       'adventure-points': 'Puntos de aventura',
       'skill-points': 'Puntos de habilidad',
       'fellowship-score': 'Puntuación de comunidad',
@@ -230,6 +236,15 @@ export const ES_ES = {
         'Espadas',
         'Desarmado',
       ],
+    },
+    'button': {
+      'save-changes': 'Guardar cambios',
+      'cancel': 'Cancelar',
+      'add': 'Agregar',
+    },
+    'messages': {
+      'distinctive-features-by-calling': 'Este Rasgo Distintivo pertenece a la Ocupación y no se puede eliminar.',
+      'select-heroic-culture-and-calling': 'Primero seleccione la Cultura Heroica y Ocupación.',
     },
   },
 

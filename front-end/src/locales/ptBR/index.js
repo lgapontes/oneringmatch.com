@@ -188,6 +188,11 @@ export const PT_BR = {
         /* 10 */ 'Conhecimento das Sombras',
       ],
       'distinctive-features-label': 'Características Distintas',
+      'distinctive-features-button': 'Editar Características Distintas',
+      'distinctive-features-by-heroic-culture-description': 'Selecione duas Características Distintas para adicionar à personagem.',
+      'all-distinctive-features-description': 'Selecione duas Características Distintas da Cultura Heróica e uma da Vocação para adicionar à personagem.',
+      'distinctive-features-by-heroic-culture': 'da Cultura Heróica',
+      'distinctive-features-by-calling': 'da Vocação',
       'flaws': [
         /* 00 - Lure of Power */
         ['Ressentido', 'Arrogante', 'Excessivamente Confiante', 'Tirânico',],
@@ -203,6 +208,7 @@ export const PT_BR = {
         ['Perturbado', 'Indeciso', 'Cheio de Culpa', 'Medonho',],
       ],
       'flaws-label': 'Falhas',
+      'flaws-button': 'Editar Falhas',
       'adventure-points': 'Pontos de aventura',
       'skill-points': 'Pontos de habilidade',
       'fellowship-score': 'Pontos de sociedade',
@@ -230,6 +236,15 @@ export const PT_BR = {
         'Espadas',
         'Desarmado',
       ],
+    },
+    'button': {
+      'save-changes': 'Salvar Alterações',
+      'cancel': 'Cancelar',
+      'add': 'Adicionar',
+    },
+    'messages': {
+      'distinctive-features-by-calling': 'Esta Característica Distinta pertence à Vocação e não pode ser excluída.',
+      'select-heroic-culture-and-calling': 'Primeiro selecione a Cultura Heróica e a Vocação.',
     },
   },
 

@@ -50,7 +50,7 @@ export default function TextFieldAttributes(props) {
       boxSizing: 'border-box',
       margin: '0 auto',
       width: '300px',
-      height: '250px',      
+      height: '250px',
 
       backgroundImage: `url(${"img/sheet/sheet-attributes.png"})`,
       backgroundRepeat: 'no-repeat',
@@ -101,7 +101,7 @@ export default function TextFieldAttributes(props) {
       <Typography style={styles.typography} sx={{
         fontSize: '22px',
         width: '60px',
-        left: '60px',
+        left: '68px',
         top: '160px',
       }}>
         {props.i18n('sheet.character-sheet.tn')}
